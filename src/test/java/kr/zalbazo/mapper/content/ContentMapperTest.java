@@ -22,15 +22,22 @@ import static org.junit.Assert.assertThat;
 @Log4j
 public class ContentMapperTest {
 
-    @Autowired
-    private ContentMapper mapper;
+	@Autowired
+	private ContentMapper mapper;
 
-    @Test
-    public void testRead(){
-        Content content = mapper.read(2L);
-        log.info("===================================");
-        log.info(content);
-    }
+	@Test
+	public void testRead() {
+		Content content = mapper.read(2L);
+		log.info("===================================");
+		log.info(content);
+	}
+
+	@Test
+	public void testUpdate() {
+		Content content = new Content();
+		content.setTitle("수정타이틀");
+		content.setBody("수정내용");
+		content.setId(2L);
 
 
     @Test
@@ -41,21 +48,24 @@ public class ContentMapperTest {
         content.setBody("수정내용");
         content.setId(2L);
 
-        int result = mapper.update(content);
-        assertThat(result, is(1));
-    }
+        
 
-    @Test
-    @Transactional
-    public void testDelete(){
-        int result = mapper.delete(2L);
-        assertThat(result, is(1));
-    }
+		int result = mapper.update(content);
+		assertThat(result, is(1));
+	}
+
+
+	@Test
+	@Transactional
+	public void testDelete() {
+		int result = mapper.delete(2L);
+		assertThat(result, is(1));
+	}
 
     @Test
     public void testInsert(){
         //지식동 가짜 게시물 저장.
-        IntStream.rangeClosed(1, 100).forEach(num -> {
+        IntStream.rangeClosed(1, 100).forEach(num -> { // new Content 100개 생성
             Content content = new Content();
             content.setUserEmail("dummy@gmail.com");
             content.setTitle("매퍼테스트제목지식동"+num);
@@ -75,9 +85,9 @@ public class ContentMapperTest {
         });
     }
 
-    @Test
-    public void tesGetList(){
-        List<Content> list  = mapper.getList(2L);
-        list.stream().forEach(content -> log.info(content));
-    }
+	@Test
+	public void tesGetList() {
+		List<Content> list = mapper.getList(2L);
+		list.stream().forEach(content -> log.info(content));
+	}
 }
