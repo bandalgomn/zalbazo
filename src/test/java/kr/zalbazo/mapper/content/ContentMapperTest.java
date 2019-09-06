@@ -2,6 +2,8 @@ package kr.zalbazo.mapper.content;
 
 import kr.zalbazo.model.content.Content;
 import lombok.extern.log4j.Log4j;
+
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,7 @@ public class ContentMapperTest {
 
 
     @Test
+    @Ignore
     public void testUpdate(){
         Content content = new Content();
         content.setTitle("수정타이틀");
