@@ -32,12 +32,6 @@ public class ContentMapperTest {
 		log.info(content);
 	}
 
-	@Test
-	public void testUpdate() {
-		Content content = new Content();
-		content.setTitle("수정타이틀");
-		content.setBody("수정내용");
-		content.setId(2L);
 
 
     @Test
