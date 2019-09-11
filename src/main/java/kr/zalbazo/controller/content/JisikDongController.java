@@ -21,35 +21,29 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping({ "/jisikdong/*" })
+@RequestMapping({ "/jisikdong/**" })
 public class JisikDongController {
-
 	private static final Long JISIKDONG_CATEGORY_NUM = 2L;
-
+	
 	@Autowired
 	private ContentService service;
-
+	
 	@GetMapping("/register")
 	public String register() {
-		return "/jisikdong/register"; // WEB-INF/views/register.jsp
+		return "jisikdong/register"; // WEB-INF/views/register.jsp
 	}
 
 	@PostMapping("/register")
 	public String register(Content content, RedirectAttributes rttr) {
 		content.setCategoryId(JISIKDONG_CATEGORY_NUM);
-
 		service.register(content);
-
 		rttr.addFlashAttribute("result", content);
-
 		return "redirect:/jisikdong/list";
 	}
 
 	@GetMapping("/list")
 	public void list(Criteria cri, Model model, Content content) {
 
-//      model.addAttribute("contentList", service.getList(JISIKDONG_CATEGORY_NUM));
-//      service.getList(JISIKDONG_CATEGORY_NUM ).stream().forEach(System.out::println);
 		cri.setCategory(JISIKDONG_CATEGORY_NUM);
 		model.addAttribute("contentList", service.getList(cri));
 		int total = service.getTotal(cri);
@@ -58,26 +52,28 @@ public class JisikDongController {
 	}
 
 	@GetMapping({ "/get", "/modify" })
-	public void detail(@RequestParam("id") Long id, Model model, @ModelAttribute("cri") Criteria cri) {
-		model.addAttribute("content", service.get(id));
+	public void detail(@RequestParam("contentId") Long contentId, Model model, @ModelAttribute("cri") Criteria cri) {
+		model.addAttribute("content", service.get(contentId));
 	}
 
 	@PostMapping("/modify")
 	public String modify(Content content, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) {
-
 		if (service.modify(content)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/jisikdong/list";
+
+
+		return "redirect:/jisikdong/list" + cri.getListLink();
 	}
 
 	@PostMapping("/remove")
-	public String remove(@RequestParam("id") Long id, RedirectAttributes rttr) {
-
-		if (service.remove(id)) {
+	public String remove(@RequestParam("contentId") Long contentId, RedirectAttributes rttr, @ModelAttribute("cri") Criteria cri) {
+		if (service.remove(contentId)) {
 			rttr.addFlashAttribute("result", "success");
 		}
-		return "redirect:/jisikdong/list";
+
+
+		return "redirect:/jisikdong/list" + cri.getListLink();
 	}
-	
+
 }

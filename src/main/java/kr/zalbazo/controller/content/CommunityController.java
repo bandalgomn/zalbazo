@@ -38,6 +38,7 @@ public class CommunityController {
         return "redirect:/community/list";
     }
 
+
     @GetMapping("/list")
     public void list(Criteria cri, Model model){
         cri.setCategory(COMMUNITY_CATEGORY_NUM);
@@ -49,8 +50,8 @@ public class CommunityController {
     }
 
     @GetMapping({"/get", "/modify"})
-    public void detail(@RequestParam("id") Long id, Model model, @ModelAttribute("cri") Criteria cri){
-        model.addAttribute("content", service.get(id));
+    public void detail(@RequestParam("contentId") Long contentId, Model model, @ModelAttribute("cri") Criteria cri){
+        model.addAttribute("content", service.get(contentId));
     }
     
     @PostMapping("/modify")
@@ -59,16 +60,18 @@ public class CommunityController {
         if(service.modify(content)){
             rttr.addFlashAttribute("result", "success");
         }
-        return "redirect:/community/list";
+        
+        return "redirect:/community/list" + cri.getListLink();
     }
 
     @PostMapping("/remove")
-    public String remove(@RequestParam("id") Long id, RedirectAttributes rttr){
-    	
-        if(service.remove(id)){
+    public String remove(@RequestParam("contentId") Long contentId, @ModelAttribute("cri") Criteria cri, RedirectAttributes rttr){
+
+        if(service.remove(contentId)){
             rttr.addFlashAttribute("result", "success");
         }
-        return "redirect:/community/list";
+
+        return "redirect:/community/list" + cri.getListLink();
     }
 
 }
