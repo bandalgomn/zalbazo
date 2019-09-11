@@ -21,7 +21,7 @@ import lombok.extern.log4j.Log4j;
 
 @Controller
 @Log4j
-@RequestMapping({ "/jisikdong/**" })
+@RequestMapping({ "/jisikdong/*" })
 public class JisikDongController {
 	private static final Long JISIKDONG_CATEGORY_NUM = 2L;
 	
