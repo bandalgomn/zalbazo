@@ -85,7 +85,6 @@
 				</div>
 				
 
-
 				<button type="submit" class="btn btn-primary" id="regBtn"
 					name="regBtn">글 쓰기</button>
 			</form>
